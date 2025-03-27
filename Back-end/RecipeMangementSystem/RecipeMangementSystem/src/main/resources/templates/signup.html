@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFCC99;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Adjusting main container to move content upwards */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -50px; /* Move components up */
+        }
+
+        /* Navigation Bar */
+        .nav-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cap-image {
+            width: 120px;
+            height: auto;
+            margin-bottom: -30px;
+        }
+
+        nav {
+            background-color: white;
+            padding: 10px 10px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 80px;
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            font-size: 30px;
+            font-weight: bold;
+            color: #ff6600;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            margin-top: -20px; /* Moves signup box slightly up */
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #cc5200;
+        }
+
+        p {
+            margin-top: 15px;
+        }
+
+        a {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="nav-container">
+        <img th:src="@{/images/cap.png}" alt="Cap Image" class="cap-image">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img th:src="@{/images/logo.png}" alt="Foody App Logo">
+                    <span class="logo-text">Foody</span>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <div class="container">
+        <h2>Signup</h2>
+        <p style="color:green;" th:if="${message}" th:text="${message}"></p>
+        <form th:action="@{/api/v1/user/register}" th:object="${user}" method="post">
+            <label>Name:</label>
+            <input type="text" th:field="*{user_name}" required />
+
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" required />
+
+            <label>Password:</label>
+            <input type="password" th:field="*{password}" required />
+
+            <button type="submit">Signup</button>
+        </form>
+        <p>Already have an account? <a th:href="@{/api/v1/user/login-page}">Login here</a></p>
+    </div>
+</div>
+</body>
+</html>
