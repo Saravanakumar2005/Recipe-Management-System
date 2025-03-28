@@ -37,7 +37,7 @@ public class UserController {
 
             if (email == null || password == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new LoginMessage("Email and password are required.", false));
+                        .body(new LoginMessage("Email and password are required.", false," "));
             }
 
             LoginMessage response = userService.loginUser(email, password);
@@ -49,7 +49,8 @@ public class UserController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new LoginMessage("Login failed. Please try again.", false));
+                    .body(new LoginMessage("Login failed. Please try again.", false," "));
+
         }
     }
 }

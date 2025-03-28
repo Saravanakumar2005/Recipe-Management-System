@@ -28,7 +28,10 @@ const Login = () => {
 
 
       if (response.ok && data.message === "Login Successful") {
-
+        localStorage.setItem("username", data.username);
+      localStorage.setItem("email", email); // Email from input
+      localStorage.setItem("password", password); // Store only if required (Not recommended for security reasons)
+      console.log("Stored in localStorage:", data.username, email, password);
         navigate("/welcome"); 
       } else {
         alert(data.message || "Invalid email or password!");

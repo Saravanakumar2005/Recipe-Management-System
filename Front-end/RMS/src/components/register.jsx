@@ -27,7 +27,7 @@ const Register = () => {
 
       if (response.ok && data.message.includes("User registered successfully")) {
         setMessage("Registration Successful!");
-        setTimeout(() => navigate("/welcome"), 1000);
+        setTimeout(() => navigate("/login"), 1000);
       } else {
         setMessage(data.message || "Registration failed!");
       }

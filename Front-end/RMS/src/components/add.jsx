@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import veg from "./images/plant.png";
+import nonveg from "./images/p.png";
 
 const AddRecipe = () => {
   const [formData, setFormData] = useState({
@@ -15,35 +17,27 @@ const AddRecipe = () => {
   });
 
   const [submissionStatus, setSubmissionStatus] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle success or error messages after form submission
   useEffect(() => {
     if (submissionStatus === "success") {
       alert("Recipe submitted successfully!");
       resetForm();
-    } else if (submissionStatus === "error") {
-      alert("Failed to submit recipe. " + errorMessage);
     }
   }, [submissionStatus]);
 
-  // Handle input changes and update form data state
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission with validation
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form data before submitting
     if (!formData.username || !formData.recipeName || !formData.ingredients) {
-      setErrorMessage("Username, Recipe Name, and Ingredients are required.");
+      alert("Username, Recipe Name, and Ingredients are required.");
       return;
     }
 
-    // Parse ingredients to an array of trimmed strings
     const ingredientsArray = formData.ingredients
       .split(",")
       .map((ingredient) => ingredient.trim());
@@ -62,7 +56,6 @@ const AddRecipe = () => {
     };
 
     setIsSubmitting(true);
-    setErrorMessage(""); // Clear any previous error message
 
     try {
       const response = await fetch("http://localhost:8085/api/v1/user/add", {
@@ -73,38 +66,27 @@ const AddRecipe = () => {
         body: JSON.stringify(dataToSubmit),
       });
 
-      // Check response content type to handle both JSON and plain text
       const contentType = response.headers.get("Content-Type");
 
       if (!response.ok) {
         const errorResponse = contentType && contentType.includes("application/json")
           ? await response.json()
           : await response.text();
+
         console.error("Error:", errorResponse);
-        throw new Error("Request failed with status: " + response.status);
+        alert("Failed to submit recipe. " + (typeof errorResponse === "string" ? errorResponse : "Request failed."));
+        return;
       }
 
-      // Process JSON response if available
-      if (contentType && contentType.includes("application/json")) {
-        const data = await response.json();
-        console.log(data);
-        setSubmissionStatus("success");
-      } else {
-        // Handle plain text response
-        const textResponse = await response.text();
-        console.log("Plain Text Response:", textResponse);
-        setSubmissionStatus("success");
-      }
+      setSubmissionStatus("success");
     } catch (error) {
       console.error("Error:", error);
-      setErrorMessage(error.message);
-      setSubmissionStatus("error");
+      alert("Failed to submit recipe. " + error.message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Reset form data
   const resetForm = () => {
     setFormData({
       username: "",
@@ -157,8 +139,7 @@ const AddRecipe = () => {
               )}
             </div>
           ))}
-
-          {errorMessage && <p style={styles.errorText}>{errorMessage}</p>}
+          
 
           <button
             type="submit"
@@ -213,33 +194,6 @@ const styles = {
     borderRadius: "4px",
     backgroundColor: "#fff",
     color: "#000",
-  },
-  buttonStyle: {
-    backgroundColor: "#ff9800",
-    color: "white",
-    padding: "10px 15px",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    display: "block",
-    width: "100%",
-    fontWeight: "bold",
-  },
-  buttonDisabled: {
-    backgroundColor: "#ccc",
-    color: "white",
-    padding: "10px 15px",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "not-allowed",
-    display: "block",
-    width: "100%",
-    fontWeight: "bold",
-  },
-  errorText: {
-    color: "red",
-    fontSize: "14px",
-    marginBottom: "10px",
   },
 };
 

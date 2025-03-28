@@ -8,6 +8,7 @@ import NonVeg from "./components/non_veg";
 import Veg from "./components/veg";
 import Welcome from "./components/welcome";
 import Add from "./components/add";
+import Prof from "./components/profile";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/veg" element={<Veg />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/add" element={<Add />}/>
+        <Route path="/prof" element={<Prof />}/>
       </Routes>
     </Router>
   );

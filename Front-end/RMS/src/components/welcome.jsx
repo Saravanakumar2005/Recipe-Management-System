@@ -7,9 +7,24 @@ import nonveg from "./images/p.png";
 const Welcome = () => {
   const [isVegHovered, setIsVegHovered] = useState(false);
   const [isNonVegHovered, setIsNonVegHovered] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   
   // Initialize navigate function
   const navigate = useNavigate();
+
+  // Retrieve user information from localStorage
+  const username = localStorage.getItem("username") || "User";
+  const email = localStorage.getItem("email") || "user@example.com";
+
+  const handleLogout = () => {
+    // Clear localStorage
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+
+    // Navigate to login page
+    navigate("/");
+  };
 
   return (
     <div
@@ -61,23 +76,110 @@ const Welcome = () => {
           </span>
         </div>
         
-        {/* Button - Navigates to "/order" */}
-        <button 
-          style={{
-            backgroundColor: "#ff6600",
-            color: "white",
-            border: "none",
-            padding: "8px 15px",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontSize: "16px",
-            fontWeight: "bold",
-            marginRight: "100px"
-          }}
-          onClick={() => navigate('/add')}  // Navigate on click
-        >
-          Order Now
-        </button>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {/* Order Now Button */}
+          <button 
+            style={{
+              backgroundColor: "#ff6600",
+              color: "white",
+              border: "none",
+              padding: "8px 15px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "16px",
+              fontWeight: "bold",
+              marginRight: "20px"
+            }}
+            onClick={() => navigate('/add')}
+          >
+            Order Now
+          </button>
+
+          {/* Profile Dropdown */}
+          <div style={{ position: "relative", marginRight: "20px" }}>
+            <div
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                backgroundColor: "#ff6600",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <span style={{ color: "white", fontWeight: "bold" }}>
+                {username[0].toUpperCase()}
+              </span>
+            </div>
+
+            {dropdownOpen && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50px",
+                  right: "0",
+                  width: "200px",
+                  backgroundColor: "white",
+                  borderRadius: "8px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  zIndex: 1100,
+                }}
+              >
+                <div
+                  style={{
+                    padding: "15px",
+                    borderBottom: "1px solid #eee",
+                    textAlign: "center",
+                  }}
+                >
+                  <strong>{username}</strong>
+                  <div style={{ color: "#666", fontSize: "0.8em" }}>{email}</div>
+                </div>
+                <div
+                  onClick={() => navigate('/profile')}
+                  style={{
+                    padding: "10px 15px",
+                    cursor: "pointer",
+                    color: "#ff6600",
+                    fontWeight: "bold",
+                    textAlign: "left",
+                    transition: "background-color 0.3s ease",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#f0f0f0";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "transparent";
+                  }}
+                >
+                  View Profile
+                </div>
+                <div
+                  onClick={handleLogout}
+                  style={{
+                    padding: "10px 15px",
+                    cursor: "pointer",
+                    color: "#ff6600",
+                    fontWeight: "bold",
+                    textAlign: "left",
+                    transition: "background-color 0.3s ease",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#f0f0f0";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "transparent";
+                  }}
+                >
+                  Logout
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </nav>
 
       {/* Main Content */}

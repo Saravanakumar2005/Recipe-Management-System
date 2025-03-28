@@ -44,17 +44,18 @@ public class UserService {
 
     @Transactional
     public LoginMessage loginUser(String email, String password) {
-        Optional<User> existingUser = userRepo.findByEmail(email);
-        if (existingUser.isEmpty()) {
-            return new LoginMessage("Email does not exist", false);
+        Optional<User> optionalUser = userRepo.findByEmail(email);
+
+        if (optionalUser.isEmpty()) {
+            return new LoginMessage("Email does not exist", false, null);
         }
 
-        // Compare hashed password
-        boolean isPasswordMatch = passwordEncoder.matches(password, existingUser.get().getPassword());
-        if (!isPasswordMatch) {
-            return new LoginMessage("Incorrect password", false);
+        User user = optionalUser.get(); // Store user object once
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return new LoginMessage("Incorrect password", false, null);
         }
 
-        return new LoginMessage("Login Successful", true);
+        return new LoginMessage("Login Successful", true, user.getUserName());
     }
 }

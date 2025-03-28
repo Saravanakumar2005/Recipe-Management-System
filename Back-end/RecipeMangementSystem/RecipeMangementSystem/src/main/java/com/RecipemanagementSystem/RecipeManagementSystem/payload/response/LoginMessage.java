@@ -1,25 +1,25 @@
 package com.RecipemanagementSystem.RecipeManagementSystem.payload.response;
 
-import javax.swing.text.StyledEditorKit;
+public class LoginMessage {
+    private String message;
+    private Boolean status;
+    private String username; // New field added
 
-public class  LoginMessage{
-    String Message;
-    Boolean status;
-
-    public LoginMessage(String message, Boolean status) {
-        Message = message;
+    public LoginMessage(String message, Boolean status, String username) {
+        this.message = message;
         this.status = status;
+        this.username = username;
     }
 
     public LoginMessage() {
     }
 
     public String getMessage() {
-        return Message;
+        return message;
     }
 
     public void setMessage(String message) {
-        Message = message;
+        this.message = message;
     }
 
     public Boolean getStatus() {
@@ -30,11 +30,20 @@ public class  LoginMessage{
         this.status = status;
     }
 
+    public String getUsername() { // Getter for username
+        return username;
+    }
+
+    public void setUsername(String username) { // Setter for username
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "LoginMessage{" +
-                "Message='" + Message + '\'' +
+                "message='" + message + '\'' +
                 ", status=" + status +
+                ", username='" + username + '\'' +
                 '}';
     }
 }
