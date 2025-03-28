@@ -8,21 +8,18 @@ const Welcome = () => {
   const [isVegHovered, setIsVegHovered] = useState(false);
   const [isNonVegHovered, setIsNonVegHovered] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  
-  // Initialize navigate function
+
   const navigate = useNavigate();
 
-  // Retrieve user information from localStorage
   const username = localStorage.getItem("username") || "User";
   const email = localStorage.getItem("email") || "user@example.com";
 
   const handleLogout = () => {
-    // Clear localStorage
+
     localStorage.removeItem("username");
     localStorage.removeItem("email");
     localStorage.removeItem("password");
 
-    // Navigate to login page
     navigate("/");
   };
 
@@ -92,7 +89,7 @@ const Welcome = () => {
             }}
             onClick={() => navigate('/add')}
           >
-            Order Now
+            Add Recipe
           </button>
 
           {/* Profile Dropdown */}
@@ -139,7 +136,7 @@ const Welcome = () => {
                   <div style={{ color: "#666", fontSize: "0.8em" }}>{email}</div>
                 </div>
                 <div
-                  onClick={() => navigate('/profile')}
+                  onClick={() => navigate('/prof')}
                   style={{
                     padding: "10px 15px",
                     cursor: "pointer",

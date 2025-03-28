@@ -7,7 +7,7 @@ const RecipeList = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  const [favorites, setFavorites] = useState({}); // Changed to object for individual recipe saving
+  const [favorites, setFavorites] = useState({}); 
   
   const recipesWithIds = recipeData.map((recipe, index) => ({
     ...recipe,
